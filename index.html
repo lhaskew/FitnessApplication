@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Data Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Health and Fitness Tracker</h1>
+
+        {% if username %}
+            <p>Welcome, {{ username }}! You are logged in.</p>
+
+            <form id="dataForm" method="POST" action="/submit">
+                <h2>Add/Update Data</h2>
+                <label for="userId">User ID:</label>
+                <input type="text" id="userId" name="userId" required>
+
+                <label for="steps">Steps:</label>
+                <input type="number" id="steps" name="steps" required>
+
+                <label for="calories">Calories:</label>
+                <input type="number" id="calories" name="calories" required>
+
+                <label for="workout">Workout:</label>
+                <input type="text" id="workout" name="workout" required>
+
+                <button type="submit">Add/Update Data</button>
+            </form>
+
+            <form id="deleteForm" method="POST" action="/delete">
+                <h2>Delete Data</h2>
+                <label for="deleteUserId">User ID:</label>
+                <input type="text" id="deleteUserId" name="deleteUserId" required>
+                <button type="submit">Delete Data</button>
+            </form>
+
+            <h2>View Data</h2>
+            <form id="viewForm" method="POST" action="/view">
+                <label for="viewUserId">User ID:</label>
+                <input type="text" id="viewUserId" name="viewUserId" required>
+                <button type="submit">View Data</button>
+            </form>
+            
+            {% if user_data %}
+            <div class="data-display">
+                <h3>Data for User ID: {{ user_data['user_id'] }}</h3>
+                <p>Steps: {{ user_data['steps'] }}</p>
+                <p>Calories: {{ user_data['calories'] }}</p>
+                <p>Workout: {{ user_data['workout'] }}</p>
+            </div>
+            {% endif %}
+
+            <form action="/logout" method="POST">
+                <button type="submit">Log out</button>
+            </form>
+
+        {% else %}
+            <p>Please <a href="/login">log in</a> or <a href="/signup">sign up</a>.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
